@@ -52,10 +52,13 @@ NS_INLINE NSData* BRANativeImagePNGRepresentation(NSImage *image) {
     // Create a bitmap representation from the current image
     
     [image lockFocus];
-    NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, image.size.width, image.size.height)];
+
+    CGImageRef cgImage = [image CGImageForProposedRect:nil context:nil hints:nil];
+    NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
+
     [image unlockFocus];
     
-    return [bitmapRep representationUsingType:NSPNGFileType properties:@{}];
+    return [bitmapRep representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
 }
 
 
@@ -63,10 +66,13 @@ NS_INLINE NSData* BRANativeImageJPEGRepresentation(NSImage *image, CGFloat quali
     // Create a bitmap representation from the current image
     
     [image lockFocus];
-    NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, image.size.width, image.size.height)];
+
+    CGImageRef cgImage = [image CGImageForProposedRect:nil context:nil hints:nil];
+    NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
+
     [image unlockFocus];
-    
-    return [bitmapRep representationUsingType:NSJPEGFileType properties:@{NSImageCompressionFactor:@(quality)}];
+
+    return [bitmapRep representationUsingType:NSBitmapImageFileTypeJPEG properties:@{NSImageCompressionFactor:@(quality)}];
 }
 
 
